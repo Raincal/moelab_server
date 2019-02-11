@@ -5,7 +5,13 @@ defmodule MoelabServerWeb.Router do
     plug(:accepts, ["json"])
   end
 
-  scope "/api", MoelabServerWeb do
+  scope "/" do
     pipe_through(:api)
+
+    forward("/api", Absinthe.Plug, schema: PlateSlateWeb.Schema)
+
+    if Mix.env() == :dev do
+      forward("/graphiql", Absinthe.Plug.GraphiQL, schema: MoelabServerWeb.Schema)
+    end
   end
 end
