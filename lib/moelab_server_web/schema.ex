@@ -38,7 +38,7 @@ defmodule MoelabServerWeb.Schema do
     @desc "Login a user and return a JWT token"
     field :login, :session do
       arg(:input, non_null(:session_input))
-      resolve(&Resolvers.SessionResolver.login/3)
+      resolve(&Resolvers.AccountsResolver.login/3)
     end
   end
 

@@ -4,5 +4,4 @@ defmodule MoelabServer.Schema.Types do
   alias MoelabServer.Schema.Types
 
   import_types(Types.AccountsTypes)
-  import_types(Types.SessionTypes)
 end
