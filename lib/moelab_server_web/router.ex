@@ -3,6 +3,7 @@ defmodule MoelabServerWeb.Router do
 
   pipeline :api do
     plug(:accepts, ["json"])
+    plug(MoelabServerWeb.Context)
   end
 
   scope "/" do
