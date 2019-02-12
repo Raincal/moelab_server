@@ -1,7 +1,8 @@
 defmodule MoelabServerWeb.Schema do
   use Absinthe.Schema
 
-  alias(MoelabServerWeb.Resolvers)
+  alias MoelabServerWeb.Resolvers
+  alias MoelabServerWeb.Schema.Middleware
 
   # import Types
   import_types(MoelabServer.Schema.Types)
@@ -9,6 +10,7 @@ defmodule MoelabServerWeb.Schema do
   query do
     @desc "Get a list of all users"
     field :users, list_of(:user_type) do
+      middleware(Middleware.Authorize, :any)
       resolve(&Resolvers.AccountsResolver.users/3)
     end
   end
