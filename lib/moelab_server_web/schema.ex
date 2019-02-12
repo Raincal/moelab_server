@@ -15,9 +15,15 @@ defmodule MoelabServerWeb.Schema do
 
   mutation do
     @desc "Register a new user"
-    field :register_user, type: :user_type do
+    field :register, :user_type do
       arg(:input, non_null(:user_input_type))
-      resolve(&Resolvers.AccountsResolver.register_user/3)
+      resolve(&Resolvers.AccountsResolver.register/3)
+    end
+
+    @desc "Login a user and return a JWT token"
+    field :login, :session_type do
+      arg(:input, non_null(:session_input_type))
+      resolve(&Resolvers.SessionResolver.login/3)
     end
   end
 

@@ -47,7 +47,8 @@ defmodule MoelabServer.MixProject do
       {:absinthe_phoenix, "~> 1.4.3"},
       {:absinthe_plug, "~> 1.4.5"},
       {:absinthe_ecto, "~> 0.1.3"},
-      {:gravity, "~> 1.0.1"}
+      {:gravity, "~> 1.0.1"},
+      {:guardian, "~> 1.2.1"}
     ]
   end
 

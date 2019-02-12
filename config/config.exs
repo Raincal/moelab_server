@@ -17,6 +17,10 @@ config :moelab_server, MoelabServerWeb.Endpoint,
   render_errors: [view: MoelabServerWeb.ErrorView, accepts: ~w(json)],
   pubsub: [name: MoelabServer.PubSub, adapter: Phoenix.PubSub.PG2]
 
+config :moelab_server, MoelabServer.Accounts.Guardian,
+  issuer: "moelab_server",
+  secret_key: "o04jQZr3gJAbRrBoc1xd1PK7pMnkrKiTXv9aHkG/5sDS5J4ZrzmDZBsQ3Ymgh5IZ"
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
