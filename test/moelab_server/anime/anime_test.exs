@@ -125,4 +125,63 @@ defmodule MoelabServer.AnimeTest do
       assert %Ecto.Changeset{} = Anime.change_bangumi(bangumi)
     end
   end
+
+  describe "genres" do
+    alias MoelabServer.Anime.Genre
+
+    @valid_attrs %{name: "some name"}
+    @update_attrs %{name: "some updated name"}
+    @invalid_attrs %{name: nil}
+
+    def genre_fixture(attrs \\ %{}) do
+      {:ok, genre} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Anime.create_genre()
+
+      genre
+    end
+
+    test "list_genres/0 returns all genres" do
+      genre = genre_fixture()
+      assert Anime.list_genres() == [genre]
+    end
+
+    test "get_genre!/1 returns the genre with given id" do
+      genre = genre_fixture()
+      assert Anime.get_genre!(genre.id) == genre
+    end
+
+    test "create_genre/1 with valid data creates a genre" do
+      assert {:ok, %Genre{} = genre} = Anime.create_genre(@valid_attrs)
+      assert genre.name == "some name"
+    end
+
+    test "create_genre/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Anime.create_genre(@invalid_attrs)
+    end
+
+    test "update_genre/2 with valid data updates the genre" do
+      genre = genre_fixture()
+      assert {:ok, %Genre{} = genre} = Anime.update_genre(genre, @update_attrs)
+      assert genre.name == "some updated name"
+    end
+
+    test "update_genre/2 with invalid data returns error changeset" do
+      genre = genre_fixture()
+      assert {:error, %Ecto.Changeset{}} = Anime.update_genre(genre, @invalid_attrs)
+      assert genre == Anime.get_genre!(genre.id)
+    end
+
+    test "delete_genre/1 deletes the genre" do
+      genre = genre_fixture()
+      assert {:ok, %Genre{}} = Anime.delete_genre(genre)
+      assert_raise Ecto.NoResultsError, fn -> Anime.get_genre!(genre.id) end
+    end
+
+    test "change_genre/1 returns a genre changeset" do
+      genre = genre_fixture()
+      assert %Ecto.Changeset{} = Anime.change_genre(genre)
+    end
+  end
 end

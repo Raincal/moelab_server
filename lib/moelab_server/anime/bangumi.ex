@@ -1,6 +1,7 @@
 defmodule MoelabServer.Anime.Bangumi do
   use Ecto.Schema
   import Ecto.Changeset
+  alias MoelabServer.Anime.Genre
 
   @timestamps_opts [type: :utc_datetime_usec]
   @required_fields ~w(aka audit_status bg_photo brief_summary casts countries current_season current_series directors episodes_count languages mainland_pubdate original_title photo pub_year rating recent_update_time refresh_tag rgb seasons_count state subtype summary thumbs title vo_id recent_update_time)a
@@ -32,6 +33,8 @@ defmodule MoelabServer.Anime.Bangumi do
     field(:thumbs, {:array, :string})
     field(:casts, :string)
     field(:vo_id, :string)
+
+    many_to_many(:genres, Genre, join_through: "bangumi_genres")
 
     timestamps()
   end
