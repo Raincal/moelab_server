@@ -9,13 +9,11 @@ defmodule MoelabServerWeb.Router do
   scope "/" do
     pipe_through(:api)
 
-    forward("/api", Absinthe.Plug, schema: PlateSlateWeb.Schema)
+    forward("/api", Absinthe.Plug, schema: MoelabServerWeb.Schema)
 
-    if Mix.env() == :dev do
-      forward("/graphiql", Absinthe.Plug.GraphiQL,
-        schema: MoelabServerWeb.Schema,
-        interface: :playground
-      )
-    end
+    forward("/graphiql", Absinthe.Plug.GraphiQL,
+      schema: MoelabServerWeb.Schema,
+      interface: :playground
+    )
   end
 end
