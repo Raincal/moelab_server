@@ -11,7 +11,7 @@ defmodule MoelabServer.Seeds do
 
     list = transform_list(response["list"])
     insert_bangumi(list)
-    insert_genres(response["list"])
+    insert_genres_and_tags(response["list"])
   end
 
   defp transform_list(list) do
@@ -34,7 +34,7 @@ defmodule MoelabServer.Seeds do
     Repo.insert_all(Anime.Bangumi, list)
   end
 
-  defp insert_genres(list) do
+  defp insert_genres_and_tags(list) do
     Enum.each(list, fn bangumi ->
       if bangumi["genres"] != "" do
         genres = String.split(bangumi["genres"], ",")
@@ -51,6 +51,25 @@ defmodule MoelabServer.Seeds do
           |> Repo.preload(:genres)
           |> Ecto.Changeset.change()
           |> Ecto.Changeset.put_assoc(:genres, bangumi_genres ++ [genre])
+          |> Repo.update!()
+        end)
+      end
+
+      if bangumi["tags"] != "" do
+        tags = String.split(bangumi["tags"], ",")
+
+        Enum.each(tags, fn tag_name ->
+          bangumi = Repo.get_by!(Anime.Bangumi, vo_id: bangumi["voId"]) |> Repo.preload(:tags)
+          bangumi_tags = bangumi.tags
+
+          tag =
+            Repo.get_by(Anime.Tag, name: tag_name) ||
+              Repo.insert!(%Anime.Tag{name: tag_name})
+
+          bangumi
+          |> Repo.preload(:tags)
+          |> Ecto.Changeset.change()
+          |> Ecto.Changeset.put_assoc(:tags, bangumi_tags ++ [tag])
           |> Repo.update!()
         end)
       end
