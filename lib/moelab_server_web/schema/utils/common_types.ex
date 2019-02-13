@@ -1,6 +1,11 @@
 defmodule MoelabServerWeb.Schema.Util.CommonTypes do
   use Absinthe.Schema.Notation
 
+  enum :sort_order do
+    value(:asc)
+    value(:desc)
+  end
+
   @desc """
   The `DateTime` scalar type represents a date and time in the UTC
   timezone. The DateTime appears in a JSON response as an ISO8601 formatted

@@ -3,6 +3,30 @@ defmodule MoelabServerWeb.Schema.Anime.AnimeTypes do
   import Absinthe.Resolution.Helpers
   alias MoelabServer.Anime
 
+  @desc "Filtering options for the bangumi list"
+  input_object :bangumi_filter do
+    @desc "Matching a title"
+    field(:title, :string)
+
+    @desc "Matching a country"
+    field(:country, :string)
+
+    @desc "Matching a state"
+    field(:state, :integer)
+
+    @desc "Matching a year"
+    field(:year, :string)
+
+    @desc "Matching a week"
+    field(:week, :string)
+
+    @desc "Matching a genre name"
+    field(:genre, :string)
+
+    @desc "Matching a tag"
+    field(:tag, :string)
+  end
+
   object :bangumi do
     field(:id, :id)
     field(:countries, :string)

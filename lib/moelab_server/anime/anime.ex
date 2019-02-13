@@ -104,15 +104,50 @@ defmodule MoelabServer.Anime do
 
   @doc """
   Returns the list of bangumi.
-
-  ## Examples
-
-      iex> list_bangumi()
-      [%Bangumi{}, ...]
-
   """
-  def list_bangumi do
-    Repo.all(Bangumi)
+  def list_bangumi(args) do
+    args
+    |> Enum.reduce(Bangumi, fn
+      {:order, order}, query ->
+        query |> order_by({^order, :recent_update_time})
+
+      {:filter, filter}, query ->
+        query |> filter_with(filter)
+    end)
+    |> Repo.all()
+  end
+
+  defp filter_with(query, filter) do
+    Enum.reduce(filter, query, fn
+      {:title, title}, query ->
+        from(q in query, where: ilike(q.title, ^"%#{title}%"))
+
+      {:country, country}, query ->
+        from(q in query, where: ilike(q.countries, ^"%#{country}%"))
+
+      {:state, state}, query ->
+        from(q in query, where: ilike(q.state, ^"%#{state}%"))
+
+      {:year, year}, query ->
+        from(q in query, where: ilike(q.pub_year, ^"%#{year}%"))
+
+      {:week, week}, query ->
+        from(q in query, where: ilike(q.refresh_tag, ^"%#{week}%"))
+
+      {:genre, genre_name}, query ->
+        from(
+          q in query,
+          join: g in assoc(q, :genres),
+          where: ilike(g.name, ^"%#{genre_name}%")
+        )
+
+      {:tag, tag_name}, query ->
+        from(
+          q in query,
+          join: t in assoc(q, :tags),
+          where: ilike(t.name, ^"%#{tag_name}%")
+        )
+    end)
   end
 
   @doc """
