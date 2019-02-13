@@ -28,4 +28,19 @@ defmodule MoelabServerWeb.Schema do
   defp apply(middleware, _, _, _) do
     middleware
   end
+
+  def plugins do
+    [Absinthe.Middleware.Dataloader | Absinthe.Plugin.defaults()]
+  end
+
+  def dataloader() do
+    alias MoelabServer.Anime
+
+    Dataloader.new()
+    |> Dataloader.add_source(Anime, Anime.data())
+  end
+
+  def context(ctx) do
+    Map.put(ctx, :loader, dataloader())
+  end
 end

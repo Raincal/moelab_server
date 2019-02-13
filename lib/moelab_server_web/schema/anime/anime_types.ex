@@ -1,5 +1,7 @@
 defmodule MoelabServerWeb.Schema.Anime.AnimeTypes do
   use Absinthe.Schema.Notation
+  import Absinthe.Resolution.Helpers
+  alias MoelabServer.Anime
 
   object :bangumi do
     field(:id, :id)
@@ -28,5 +30,10 @@ defmodule MoelabServerWeb.Schema.Anime.AnimeTypes do
     field(:seasons_count, :integer)
     field(:casts, :string)
     field(:vo_id, :string)
+    field(:genres, list_of(:genre), resolve: dataloader(Anime))
+  end
+
+  object :genre do
+    field(:name, :string)
   end
 end

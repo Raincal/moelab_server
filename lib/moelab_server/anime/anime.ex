@@ -148,4 +148,12 @@ defmodule MoelabServer.Anime do
   def change_bangumi(%Bangumi{} = bangumi) do
     Bangumi.changeset(bangumi, %{})
   end
+
+  def data() do
+    Dataloader.Ecto.new(Repo, query: &query/2)
+  end
+
+  def query(queryable, _) do
+    queryable
+  end
 end

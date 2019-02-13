@@ -25,8 +25,8 @@ defmodule MoelabServer.MixProject do
   end
 
   # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_), do: ["lib"]
+  defp elixirc_paths(:test), do: ["lib", "dev/support", "test/support"]
+  defp elixirc_paths(_), do: ["lib", "dev/support"]
 
   # Specifies your project dependencies.
   #
@@ -49,7 +49,8 @@ defmodule MoelabServer.MixProject do
       {:absinthe_ecto, "~> 0.1.3"},
       {:gravity, "~> 1.0.1"},
       {:guardian, "~> 1.2.1"},
-      {:httpoison, "~> 1.5"}
+      {:httpoison, "~> 1.5"},
+      {:dataloader, "~> 1.0.0"}
     ]
   end
 
