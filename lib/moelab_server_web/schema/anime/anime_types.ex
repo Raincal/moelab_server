@@ -1,4 +1,4 @@
-defmodule MoelabServer.Schema.Types.AnimeTypes do
+defmodule MoelabServerWeb.Schema.Anime.AnimeTypes do
   use Absinthe.Schema.Notation
 
   object :bangumi do

@@ -1,4 +1,4 @@
-defmodule MoelabServer.Schema.Types.MiscTypes do
+defmodule MoelabServerWeb.Schema.Util.CommonTypes do
   use Absinthe.Schema.Notation
 
   @desc """

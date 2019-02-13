@@ -1,8 +1,20 @@
 defmodule MoelabServerWeb.Schema do
   use Absinthe.Schema
-
-  alias MoelabServerWeb.Resolvers
   alias MoelabServerWeb.Schema.Middleware
+
+  import_types(MoelabServerWeb.Schema.Types)
+
+  query do
+    import_fields(:account_queries)
+    import_fields(:anime_queries)
+  end
+
+  mutation do
+    import_fields(:account_mutations)
+  end
+
+  # subscription do
+  # end
 
   def middleware(middleware, field, object) do
     middleware
@@ -16,37 +28,4 @@ defmodule MoelabServerWeb.Schema do
   defp apply(middleware, _, _, _) do
     middleware
   end
-
-  # import Types
-  import_types(MoelabServer.Schema.Types)
-
-  query do
-    @desc "Get a list of all users"
-    field :users, list_of(:user) do
-      middleware(Middleware.Authorize, :any)
-      resolve(&Resolvers.AccountsResolver.users/3)
-    end
-
-    @desc "Get a list of all bangumi"
-    field :all_bangumi, list_of(:bangumi) do
-      resolve(&Resolvers.AnimeResolver.all_bangumi/3)
-    end
-  end
-
-  mutation do
-    @desc "Register a new user"
-    field :register, :register_result do
-      arg(:input, non_null(:user_input))
-      resolve(&Resolvers.AccountsResolver.register/3)
-    end
-
-    @desc "Login a user and return a JWT token"
-    field :login, :session do
-      arg(:input, non_null(:session_input))
-      resolve(&Resolvers.AccountsResolver.login/3)
-    end
-  end
-
-  # subscription do
-  # end
 end

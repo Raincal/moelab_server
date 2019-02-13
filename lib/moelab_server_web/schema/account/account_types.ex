@@ -1,4 +1,4 @@
-defmodule MoelabServer.Schema.Types.AccountsTypes do
+defmodule MoelabServerWeb.Schema.Account.AccountTypes do
   use Absinthe.Schema.Notation
 
   object :user do
