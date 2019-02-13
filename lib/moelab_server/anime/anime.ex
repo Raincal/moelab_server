@@ -8,6 +8,53 @@ defmodule MoelabServer.Anime do
 
   alias MoelabServer.Anime.Bangumi
   alias MoelabServer.Anime.Genre
+  alias MoelabServer.Anime.Tag
+
+  @doc """
+  Returns the list of tags.
+  """
+  def list_tags do
+    Repo.all(Tag)
+  end
+
+  @doc """
+  Gets a single tag.
+
+  Raises `Ecto.NoResultsError` if the Tag does not exist.
+  """
+  def get_tag!(id), do: Repo.get!(Tag, id)
+
+  @doc """
+  Creates a tag.
+  """
+  def create_tag(attrs \\ %{}) do
+    %Tag{}
+    |> Tag.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a tag.
+  """
+  def update_tag(%Tag{} = tag, attrs) do
+    tag
+    |> Tag.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a Tag.
+  """
+  def delete_tag(%Tag{} = tag) do
+    Repo.delete(tag)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking tag changes.
+  """
+  def change_tag(%Tag{} = tag) do
+    Tag.changeset(tag, %{})
+  end
 
   @doc """
   Returns the list of genres.

@@ -31,9 +31,14 @@ defmodule MoelabServerWeb.Schema.Anime.AnimeTypes do
     field(:casts, :string)
     field(:vo_id, :string)
     field(:genres, list_of(:genre), resolve: dataloader(Anime))
+    field(:tags, list_of(:tag), resolve: dataloader(Anime))
   end
 
   object :genre do
+    field(:name, :string)
+  end
+
+  object :tag do
     field(:name, :string)
   end
 end
