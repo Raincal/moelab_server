@@ -1,10 +1,13 @@
 defmodule MoelabServerWeb.Schema.Anime.AnimeTypes do
   use Absinthe.Schema.Notation
   import Absinthe.Resolution.Helpers
+  import MoelabServerWeb.Schema.Utils.Helper
   alias MoelabServer.Anime
 
   @desc "Filtering options for the bangumi list"
   input_object :bangumi_filter do
+    pagination_args()
+
     @desc "Matching a title"
     field(:title, :string)
 
@@ -25,6 +28,11 @@ defmodule MoelabServerWeb.Schema.Anime.AnimeTypes do
 
     @desc "Matching a tag"
     field(:tag, :string)
+  end
+
+  object :paged_bangumi do
+    field(:entries, list_of(:bangumi))
+    pagination_fields()
   end
 
   object :bangumi do

@@ -20,7 +20,7 @@ defmodule MoelabServer.MixProject do
   def application do
     [
       mod: {MoelabServer.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :scrivener_ecto]
     ]
   end
 
@@ -50,7 +50,9 @@ defmodule MoelabServer.MixProject do
       {:gravity, "~> 1.0.1"},
       {:guardian, "~> 1.2.1"},
       {:httpoison, "~> 1.5"},
-      {:dataloader, "~> 1.0.0"}
+      {:dataloader, "~> 1.0.0"},
+      {:scrivener_ecto,
+       git: "https://github.com/mastani-stack/scrivener_ecto", branch: "dev", override: true}
     ]
   end
 

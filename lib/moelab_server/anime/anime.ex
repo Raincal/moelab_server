@@ -105,6 +105,18 @@ defmodule MoelabServer.Anime do
   @doc """
   Returns the list of bangumi.
   """
+  def list_bangumi(%{filter: %{page: page, size: size}} = args) do
+    args
+    |> Enum.reduce(Bangumi, fn
+      {:order, order}, query ->
+        query |> order_by({^order, :recent_update_time})
+
+      {:filter, filter}, query ->
+        query |> filter_with(filter)
+    end)
+    |> Repo.paginate(page: page, page_size: size)
+  end
+
   def list_bangumi(args) do
     args
     |> Enum.reduce(Bangumi, fn
@@ -114,11 +126,17 @@ defmodule MoelabServer.Anime do
       {:filter, filter}, query ->
         query |> filter_with(filter)
     end)
-    |> Repo.all()
+    |> Repo.paginate()
   end
 
   defp filter_with(query, filter) do
     Enum.reduce(filter, query, fn
+      {:page, _page}, query ->
+        query
+
+      {:size, _size}, query ->
+        query
+
       {:title, title}, query ->
         from(q in query, where: ilike(q.title, ^"%#{title}%"))
 
