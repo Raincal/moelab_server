@@ -26,6 +26,11 @@ defmodule MoelabServerWeb.Schema do
       middleware(Middleware.Authorize, :any)
       resolve(&Resolvers.AccountsResolver.users/3)
     end
+
+    @desc "Get a list of all bangumi"
+    field :all_bangumi, list_of(:bangumi) do
+      resolve(&Resolvers.AnimeResolver.all_bangumi/3)
+    end
   end
 
   mutation do
