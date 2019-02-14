@@ -155,7 +155,7 @@ defmodule MoelabServer.Anime do
     Bangumi.changeset(bangumi, %{})
   end
 
-  def add_tag(bangumi, tag_name) when is_binary(tag_name) do
+  def create_tag(bangumi, tag_name) when is_binary(tag_name) do
     tag =
       case Repo.get_by(Tag, %{name: tag_name}) do
         nil ->
@@ -165,24 +165,24 @@ defmodule MoelabServer.Anime do
           tag
       end
 
-    add_tag(bangumi, tag.id)
+    create_tag(bangumi, tag.id)
   end
 
-  def add_tag(%{bangumi_id: bid}, tid) do
-    add_tag(bid, tid)
+  def create_tag(%{bangumi_id: bid}, tid) do
+    create_tag(bid, tid)
   end
 
-  def add_tag(%Bangumi{} = bangumi, tid) do
-    add_tag(bangumi.id, tid)
+  def create_tag(%Bangumi{} = bangumi, tid) do
+    create_tag(bangumi.id, tid)
   end
 
-  def add_tag(bid, tid) do
+  def create_tag(bid, tid) do
     %BangumiTag{}
     |> BangumiTag.changeset(%{bangumi_id: bid, tag_id: tid})
     |> Repo.insert!()
   end
 
-  def add_genre(bangumi, genre_name) when is_binary(genre_name) do
+  def create_genre(bangumi, genre_name) when is_binary(genre_name) do
     genre =
       case Repo.get_by(Genre, %{name: genre_name}) do
         nil ->
@@ -192,18 +192,18 @@ defmodule MoelabServer.Anime do
           genre
       end
 
-    add_genre(bangumi, genre.id)
+    create_genre(bangumi, genre.id)
   end
 
-  def add_genre(%{bangumi_id: bid}, tid) do
-    add_genre(bid, tid)
+  def create_genre(%{bangumi_id: bid}, tid) do
+    create_genre(bid, tid)
   end
 
-  def add_genre(%Bangumi{} = bangumi, tid) do
-    add_genre(bangumi.id, tid)
+  def create_genre(%Bangumi{} = bangumi, tid) do
+    create_genre(bangumi.id, tid)
   end
 
-  def add_genre(bid, tid) do
+  def create_genre(bid, tid) do
     %BangumiGenre{}
     |> BangumiGenre.changeset(%{bangumi_id: bid, genre_id: tid})
     |> Repo.insert!()

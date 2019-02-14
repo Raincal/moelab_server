@@ -10,18 +10,18 @@ defmodule MoelabServerWeb.Schema.Anime.AnimeMutations do
       resolve(&Resolvers.AnimeResolver.create_bangumi/3)
     end
 
-    @desc "Add a new tag"
-    field :add_tag, :bangumi_tag do
+    @desc "Create a new tag"
+    field :create_tag, :bangumi_tag do
       arg(:bangumi_id, :id)
       arg(:name, :string)
-      resolve(&Resolvers.AnimeResolver.add_tag/3)
+      resolve(&Resolvers.AnimeResolver.create_tag/3)
     end
 
-    @desc "Add a new genre"
-    field :add_genre, :bangumi_genre do
+    @desc "Create a new genre"
+    field :create_genre, :bangumi_genre do
       arg(:bangumi_id, :id)
       arg(:name, :string)
-      resolve(&Resolvers.AnimeResolver.add_genre/3)
+      resolve(&Resolvers.AnimeResolver.create_genre/3)
     end
   end
 end
