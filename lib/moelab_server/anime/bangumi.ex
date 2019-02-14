@@ -35,7 +35,7 @@ defmodule MoelabServer.Anime.Bangumi do
     field(:casts, :string)
     field(:vo_id, :string)
 
-    belongs_to(:creater_id, User)
+    belongs_to(:creater, User)
     many_to_many(:genres, Genre, join_through: "bangumi_genres")
     many_to_many(:tags, Tag, join_through: "bangumi_tags")
 
