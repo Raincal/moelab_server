@@ -10,9 +10,8 @@ defmodule MoelabServer.Seeds do
     response = url |> HTTPoison.get!() |> (&Poison.decode!(&1.body)).()
 
     insert_user()
-    list = transform_list(response["list"])
-    insert_bangumi(list)
-    insert_genres_and_tags(response["list"])
+    response["list"] |> transform_list() |> insert_bangumi()
+    response["list"] |> insert_genres_and_tags()
   end
 
   defp insert_user do
@@ -52,39 +51,21 @@ defmodule MoelabServer.Seeds do
       if bangumi["genres"] != "" do
         genres = String.split(bangumi["genres"], ",")
 
-        Enum.each(genres, fn genre_name ->
-          bangumi = Repo.get_by!(Anime.Bangumi, vo_id: bangumi["voId"]) |> Repo.preload(:genres)
-          bangumi_genres = bangumi.genres
+        bangumi = Anime.Bangumi |> Repo.get_by!(vo_id: bangumi["voId"])
 
-          genre =
-            Repo.get_by(Anime.Genre, name: genre_name) ||
-              Repo.insert!(%Anime.Genre{name: genre_name})
-
-          bangumi
-          |> Repo.preload(:genres)
-          |> Ecto.Changeset.change()
-          |> Ecto.Changeset.put_assoc(:genres, bangumi_genres ++ [genre])
-          |> Repo.update!()
-        end)
+        for genre <- genres do
+          MoelabServer.Anime.create_genre(bangumi.id, genre)
+        end
       end
 
       if bangumi["tags"] != "" do
         tags = String.split(bangumi["tags"], ",")
 
-        Enum.each(tags, fn tag_name ->
-          bangumi = Repo.get_by!(Anime.Bangumi, vo_id: bangumi["voId"]) |> Repo.preload(:tags)
-          bangumi_tags = bangumi.tags
+        bangumi = Anime.Bangumi |> Repo.get_by!(vo_id: bangumi["voId"])
 
-          tag =
-            Repo.get_by(Anime.Tag, name: tag_name) ||
-              Repo.insert!(%Anime.Tag{name: tag_name})
-
-          bangumi
-          |> Repo.preload(:tags)
-          |> Ecto.Changeset.change()
-          |> Ecto.Changeset.put_assoc(:tags, bangumi_tags ++ [tag])
-          |> Repo.update!()
-        end)
+        for tag <- tags do
+          MoelabServer.Anime.create_tag(bangumi.id, tag)
+        end
       end
     end)
   end
