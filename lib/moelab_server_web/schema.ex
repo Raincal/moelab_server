@@ -11,6 +11,7 @@ defmodule MoelabServerWeb.Schema do
 
   mutation do
     import_fields(:account_mutations)
+    import_fields(:anime_mutations)
   end
 
   # subscription do

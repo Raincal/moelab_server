@@ -11,4 +11,5 @@ defmodule MoelabServerWeb.Schema.Types do
 
   import_types(Anime.AnimeTypes)
   import_types(Anime.AnimeQueries)
+  import_types(Anime.AnimeMutations)
 end
