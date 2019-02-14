@@ -7,6 +7,9 @@ defmodule MoelabServerWeb.Resolvers.AnimeResolver do
 
   def create_bangumi(_, %{input: input}, %{context: %{current_user: current_user}}) do
     bangumi_input = Map.merge(input, %{creater_id: current_user.id})
-    {:ok, Anime.create_bangumi(bangumi_input)}
+
+    with {:ok, bangumi} <- Anime.create_bangumi(bangumi_input) do
+      {:ok, bangumi}
+    end
   end
 end
