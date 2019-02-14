@@ -6,55 +6,7 @@ defmodule MoelabServer.Anime do
   import Ecto.Query, warn: false
   alias MoelabServer.Repo
 
-  alias MoelabServer.Anime.Bangumi
-  alias MoelabServer.Anime.Genre
-  alias MoelabServer.Anime.Tag
-
-  @doc """
-  Returns the list of tags.
-  """
-  def list_tags do
-    Repo.all(Tag)
-  end
-
-  @doc """
-  Gets a single tag.
-
-  Raises `Ecto.NoResultsError` if the Tag does not exist.
-  """
-  def get_tag!(id), do: Repo.get!(Tag, id)
-
-  @doc """
-  Creates a tag.
-  """
-  def create_tag(attrs \\ %{}) do
-    %Tag{}
-    |> Tag.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates a tag.
-  """
-  def update_tag(%Tag{} = tag, attrs) do
-    tag
-    |> Tag.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a Tag.
-  """
-  def delete_tag(%Tag{} = tag) do
-    Repo.delete(tag)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking tag changes.
-  """
-  def change_tag(%Tag{} = tag) do
-    Tag.changeset(tag, %{})
-  end
+  alias MoelabServer.Anime.{Bangumi, BangumiTag, Genre, Tag}
 
   @doc """
   Returns the list of genres.
@@ -247,6 +199,33 @@ defmodule MoelabServer.Anime do
   """
   def change_bangumi(%Bangumi{} = bangumi) do
     Bangumi.changeset(bangumi, %{})
+  end
+
+  def add_tag(bangumi, tag_name) when is_binary(tag_name) do
+    tag =
+      case Repo.get_by(Tag, %{name: tag_name}) do
+        nil ->
+          %Tag{} |> Tag.changeset(%{name: tag_name}) |> Repo.insert!()
+
+        tag ->
+          tag
+      end
+
+    add_tag(bangumi, tag.id)
+  end
+
+  def add_tag(%{bangumi_id: bid}, tid) do
+    add_tag(bid, tid)
+  end
+
+  def add_tag(%Bangumi{} = bangumi, tid) do
+    add_tag(bangumi.id, tid)
+  end
+
+  def add_tag(bid, tid) do
+    %BangumiTag{}
+    |> BangumiTag.changeset(%{bangumi_id: bid, tag_id: tid})
+    |> Repo.insert!()
   end
 
   def data() do

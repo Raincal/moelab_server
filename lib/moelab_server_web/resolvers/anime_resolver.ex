@@ -12,4 +12,8 @@ defmodule MoelabServerWeb.Resolvers.AnimeResolver do
       {:ok, bangumi}
     end
   end
+
+  def add_tag(_, %{bangumi_id: bid, name: tag_name}, _) do
+    {:ok, Anime.add_tag(bid, tag_name)}
+  end
 end

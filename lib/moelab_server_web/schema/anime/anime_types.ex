@@ -53,4 +53,9 @@ defmodule MoelabServerWeb.Schema.Anime.AnimeTypes do
   object :tag do
     field(:name, :string)
   end
+
+  object :bangumi_tag do
+    field(:bangumi, :bangumi, resolve: dataloader(Anime))
+    field(:tag, :tag, resolve: dataloader(Anime))
+  end
 end
