@@ -13,8 +13,8 @@ defmodule MoelabServerWeb.Resolvers.AccountsResolver do
     end
   end
 
-  def login(_, %{input: input}, _) do
-    with {:ok, user} <- Accounts.Session.authenticate(input),
+  def login(_, %{email: email, password: password}, _) do
+    with {:ok, user} <- Accounts.Session.authenticate(email, password),
          {:ok, jwt_token, _} <- Accounts.Guardian.encode_and_sign(user) do
       {:ok, %{token: jwt_token, user: user}}
     end
