@@ -16,4 +16,8 @@ defmodule MoelabServerWeb.Resolvers.AnimeResolver do
   def add_tag(_, %{bangumi_id: bid, name: tag_name}, _) do
     {:ok, Anime.add_tag(bid, tag_name)}
   end
+
+  def add_genre(_, %{bangumi_id: bid, name: genre_name}, _) do
+    {:ok, Anime.add_genre(bid, genre_name)}
+  end
 end

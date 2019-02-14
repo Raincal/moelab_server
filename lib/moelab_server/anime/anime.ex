@@ -6,53 +6,7 @@ defmodule MoelabServer.Anime do
   import Ecto.Query, warn: false
   alias MoelabServer.Repo
 
-  alias MoelabServer.Anime.{Bangumi, BangumiTag, Genre, Tag}
-
-  @doc """
-  Returns the list of genres.
-  """
-  def list_genres do
-    Repo.all(Genre)
-  end
-
-  @doc """
-  Gets a single genre.
-
-  Raises `Ecto.NoResultsError` if the Genre does not exist.
-  """
-  def get_genre!(id), do: Repo.get!(Genre, id)
-
-  @doc """
-  Creates a genre.
-  """
-  def create_genre(attrs \\ %{}) do
-    %Genre{}
-    |> Genre.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates a genre.
-  """
-  def update_genre(%Genre{} = genre, attrs) do
-    genre
-    |> Genre.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a Genre.
-  """
-  def delete_genre(%Genre{} = genre) do
-    Repo.delete(genre)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking genre changes.
-  """
-  def change_genre(%Genre{} = genre) do
-    Genre.changeset(genre, %{})
-  end
+  alias MoelabServer.Anime.{Bangumi, BangumiTag, BangumiGenre, Genre, Tag}
 
   @doc """
   Returns the list of bangumi.
@@ -225,6 +179,33 @@ defmodule MoelabServer.Anime do
   def add_tag(bid, tid) do
     %BangumiTag{}
     |> BangumiTag.changeset(%{bangumi_id: bid, tag_id: tid})
+    |> Repo.insert!()
+  end
+
+  def add_genre(bangumi, genre_name) when is_binary(genre_name) do
+    genre =
+      case Repo.get_by(Genre, %{name: genre_name}) do
+        nil ->
+          %Genre{} |> Genre.changeset(%{name: genre_name}) |> Repo.insert!()
+
+        genre ->
+          genre
+      end
+
+    add_genre(bangumi, genre.id)
+  end
+
+  def add_genre(%{bangumi_id: bid}, tid) do
+    add_genre(bid, tid)
+  end
+
+  def add_genre(%Bangumi{} = bangumi, tid) do
+    add_genre(bangumi.id, tid)
+  end
+
+  def add_genre(bid, tid) do
+    %BangumiGenre{}
+    |> BangumiGenre.changeset(%{bangumi_id: bid, genre_id: tid})
     |> Repo.insert!()
   end
 
