@@ -19,7 +19,17 @@ defmodule MoelabServerWeb.Schema do
 
   def middleware(middleware, field, object) do
     middleware
+    |> apply(:apollo_cache, field, object)
+    |> apply(:apollo_trace, field, object)
     |> apply(:errors, field, object)
+  end
+
+  defp apply(middleware, :apollo_cache, _field, %{identifier: :query}) do
+    [ApolloTracing.Middleware.Caching] ++ middleware
+  end
+
+  defp apply(middleware, :apollo_trace, _field, _object) do
+    [ApolloTracing.Middleware.Tracing] ++ middleware
   end
 
   defp apply(middleware, :errors, _field, %{identifier: :mutation}) do
