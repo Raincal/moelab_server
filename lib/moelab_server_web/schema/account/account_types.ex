@@ -14,6 +14,7 @@ defmodule MoelabServerWeb.Schema.Account.AccountTypes do
     field(:name, non_null(:string))
     field(:username, non_null(:string))
     field(:email, non_null(:string))
+    field(:role, :string)
     field(:password, non_null(:string))
     field(:password_confirmation, non_null(:string))
   end
@@ -21,11 +22,6 @@ defmodule MoelabServerWeb.Schema.Account.AccountTypes do
   object :session do
     field(:token, :string)
     field(:user, :user)
-  end
-
-  input_object :session_input do
-    field(:email, non_null(:string))
-    field(:password, non_null(:string))
   end
 
   object :register_result do
