@@ -15,8 +15,8 @@ defmodule MoelabServer.Anime.BangumiSubscriber do
   @doc false
   def changeset(bangumi_subscriber, attrs) do
     bangumi_subscriber
-    |> cast(attrs, [@required_fields])
-    |> validate_required([@required_fields])
+    |> cast(attrs, @required_fields)
+    |> validate_required(@required_fields)
     |> foreign_key_constraint(:user_id)
     |> foreign_key_constraint(:bangumi_id)
     |> unique_constraint(:user_id, name: :bangumi_subscribers_user_id_bangumi_id_index)

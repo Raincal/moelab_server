@@ -1,4 +1,5 @@
 defmodule MoelabServerWeb.Resolvers.AnimeResolver do
+  import ShortMaps
   alias MoelabServer.Anime
 
   def all_bangumi(_, args, _) do
@@ -11,6 +12,14 @@ defmodule MoelabServerWeb.Resolvers.AnimeResolver do
     with {:ok, bangumi} <- Anime.create_bangumi(bangumi_input) do
       {:ok, bangumi}
     end
+  end
+
+  def subscribe_bangumi(_, ~m(bangumi_id)a, %{context: %{current_user: current_user}}) do
+    Anime.subscribe_bangumi(%Anime.Bangumi{id: bangumi_id}, current_user)
+  end
+
+  def unsubscribe_bangumi(_, ~m(bangumi_id)a, %{context: %{current_user: current_user}}) do
+    Anime.unsubscribe_bangumi(%Anime.Bangumi{id: bangumi_id}, current_user)
   end
 
   def create_tag(_, %{bangumi_id: bid, name: tag_name}, _) do
