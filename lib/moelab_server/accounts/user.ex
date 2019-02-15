@@ -2,7 +2,7 @@ defmodule MoelabServer.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias MoelabServer.Anime.BangumiSubscribers
+  alias MoelabServer.Anime.BangumiSubscriber
 
   schema "users" do
     field(:email, :string, unique: true)
@@ -14,7 +14,7 @@ defmodule MoelabServer.Accounts.User do
     field(:password_confirmation, :string, virtual: true)
     field(:role, :string, default: "user")
 
-    has_many(:subscribed_bangumi, {"bangumi_subscribers", BangumiSubscribers})
+    has_many(:subscribed_bangumi, BangumiSubscriber)
 
     timestamps()
   end
