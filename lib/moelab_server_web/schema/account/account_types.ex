@@ -1,5 +1,6 @@
 defmodule MoelabServerWeb.Schema.Account.AccountTypes do
   use Absinthe.Schema.Notation
+  import MoelabServerWeb.Schema.Utils.Helper
 
   object :user do
     field(:id, :id)
@@ -8,6 +9,16 @@ defmodule MoelabServerWeb.Schema.Account.AccountTypes do
     field(:email, :string)
     field(:avatar, :string)
     field(:role, :string)
+  end
+
+  object :paged_users do
+    field(:entries, list_of(:user))
+    pagination_fields()
+  end
+
+  input_object :paged_filter do
+    field(:sort, :sort_enum)
+    pagination_args()
   end
 
   input_object :user_input do

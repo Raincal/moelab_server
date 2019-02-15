@@ -1,7 +1,11 @@
 defmodule MoelabServer.Accounts do
+  alias MoelabServer.Accounts.Delegates.Profile
+
   @moduledoc """
   The Accounts context.
   """
+
+  defdelegate subscribed_bangumi(user, filter), to: Profile
 
   import Ecto.Query, warn: false
   alias MoelabServer.Repo

@@ -5,26 +5,26 @@ defmodule Helper.QueryBuilder do
     Enum.reduce(filter, queryable, fn
       # Sort
       {:sort, :new}, queryable ->
-        queryable |> order_by(desc: :recent_update_time)
+        queryable |> order_by([sb, b], desc: b.recent_update_time)
 
       {:sort, :hot}, queryable ->
-        queryable |> order_by(desc: :hot)
+        queryable |> order_by([sb, b], desc: b.hot)
 
       # Filter
-      {:title, title}, query ->
-        from(q in query, where: ilike(q.title, ^"%#{title}%"))
+      {:title, title}, queryable ->
+        from(q in queryable, where: ilike(q.title, ^"%#{title}%"))
 
-      {:country, country}, query ->
-        from(q in query, where: q.countries == ^country)
+      {:country, country}, queryable ->
+        from(q in queryable, where: q.countries == ^country)
 
-      {:state, state}, query ->
-        from(q in query, where: q.state == ^state)
+      {:state, state}, queryable ->
+        from(q in queryable, where: q.state == ^state)
 
-      {:year, year}, query ->
-        from(q in query, where: q.pub_year == ^year)
+      {:year, year}, queryable ->
+        from(q in queryable, where: q.pub_year == ^year)
 
-      {:week, week}, query ->
-        from(q in query, where: q.refresh_tag == ^week)
+      {:week, week}, queryable ->
+        from(q in queryable, where: q.refresh_tag == ^week)
 
       {:tag, tag_name}, queryable ->
         from(
