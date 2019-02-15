@@ -22,6 +22,12 @@ defmodule MoelabServerWeb.Resolvers.AnimeResolver do
     Anime.unsubscribe_bangumi(%Anime.Bangumi{id: bangumi_id}, current_user)
   end
 
+  def bangumi_subscribers(_, ~m(bangumi_id filter)a, _) do
+    Anime.bangumi_subscribers(%Anime.Bangumi{id: bangumi_id}, filter)
+  end
+
+  def bangumi_subscribers(_, _, _), do: {:error, "invalid args"}
+
   def create_tag(_, %{bangumi_id: bid, name: tag_name}, _) do
     {:ok, Anime.create_tag(bid, tag_name)}
   end

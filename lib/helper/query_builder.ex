@@ -1,6 +1,13 @@
 defmodule Helper.QueryBuilder do
   import Ecto.Query, warn: false
 
+  def load_inner_users(queryable, filter) do
+    queryable
+    |> join(:inner, [f], u in assoc(f, :user))
+    |> select([f, u], u)
+    |> filter_pack(filter)
+  end
+
   def filter_pack(queryable, filter) when is_map(filter) do
     Enum.reduce(filter, queryable, fn
       # Sort

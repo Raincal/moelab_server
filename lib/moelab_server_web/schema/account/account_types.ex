@@ -16,6 +16,11 @@ defmodule MoelabServerWeb.Schema.Account.AccountTypes do
     pagination_fields()
   end
 
+  input_object :user_paged_filter do
+    field(:sort, :user_sort_enum)
+    pagination_args()
+  end
+
   input_object :paged_filter do
     field(:sort, :sort_enum)
     pagination_args()

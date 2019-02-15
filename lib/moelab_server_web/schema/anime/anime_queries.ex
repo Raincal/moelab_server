@@ -9,5 +9,12 @@ defmodule MoelabServerWeb.Schema.Anime.AnimeQueries do
       arg(:order, type: :sort_order, default_value: :desc)
       resolve(&Resolvers.AnimeResolver.all_bangumi/3)
     end
+
+    @desc "Paged subscribers of a bangumi"
+    field :bangumi_subscribers, :paged_users do
+      arg(:bangumi_id, :id)
+      arg(:filter, :user_paged_filter)
+      resolve(&Resolvers.AnimeResolver.bangumi_subscribers/3)
+    end
   end
 end

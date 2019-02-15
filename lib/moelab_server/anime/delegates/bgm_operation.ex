@@ -1,4 +1,4 @@
-defmodule MoelabServer.Anime.Delegates.BangumiOperation do
+defmodule MoelabServer.Anime.Delegates.BgmOperation do
   import ShortMaps
 
   @moduledoc """
