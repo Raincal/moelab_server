@@ -40,6 +40,7 @@
   "ranch": {:hex, :ranch, "1.7.1", "6b1fab51b49196860b733a49c07604465a47bdb78aa10c1c16a3d199f7f8c881", [:rebar3], [], "hexpm"},
   "scrivener": {:hex, :scrivener, "2.6.0", "b6baf40e9eac69cdc5773e37dd60c6f8b282dd676564048fa29a47e63583f562", [:mix], [], "hexpm"},
   "scrivener_ecto": {:git, "https://github.com/mastani-stack/scrivener_ecto", "a6ebbbe9585e9829219ed0f73a3afcb4edde3558", [branch: "dev"]},
+  "short_maps": {:hex, :short_maps, "0.1.2", "a7c2bfd91179cdbdfe90e74a023992335d116982fa672612c74776b2e9257a7b", [:mix], [], "hexpm"},
   "ssl_verify_fun": {:hex, :ssl_verify_fun, "1.1.4", "f0eafff810d2041e93f915ef59899c923f4568f4585904d010387ed74988e77b", [:make, :mix, :rebar3], [], "hexpm"},
   "telemetry": {:hex, :telemetry, "0.3.0", "099a7f3ce31e4780f971b4630a3c22ec66d22208bc090fe33a2a3a6a67754a73", [:rebar3], [], "hexpm"},
   "unicode_util_compat": {:hex, :unicode_util_compat, "0.4.1", "d869e4c68901dd9531385bb0c8c40444ebf624e60b6962d95952775cac5e90cd", [:rebar3], [], "hexpm"},

@@ -1,4 +1,6 @@
 defmodule MoelabServer.Anime do
+  alias MoelabServer.Anime.Delegates.{BgmOperation, BgmCURD}
+
   @moduledoc """
   The Anime context.
   """
@@ -7,6 +9,10 @@ defmodule MoelabServer.Anime do
   alias MoelabServer.Repo
 
   alias MoelabServer.Anime.{Bangumi, BangumiTag, BangumiGenre, Genre, Tag}
+
+  defdelegate subscribe_bangumi(bangumi, user), to: BgmOperation
+  defdelegate unsubscribe_bangumi(bangumi, user), to: BgmOperation
+  defdelegate bangumi_subscribers(bangumi, filters), to: BgmCURD
 
   @doc """
   Returns the list of bangumi.
