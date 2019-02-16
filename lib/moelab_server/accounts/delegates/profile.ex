@@ -1,6 +1,6 @@
 defmodule MoelabServer.Accounts.Delegates.Profile do
   @moduledoc """
-  accounts profile
+  Accounts profile
   """
   import Ecto.Query, warn: false
   import Helper.Utils, only: [done: 1]

@@ -2,20 +2,22 @@ defmodule MoelabServerWeb.Resolvers.AccountsResolver do
   import ShortMaps
   alias MoelabServer.Accounts
 
-  def users(_, _, _) do
-    {:ok, Accounts.list_users()}
+  def list_users(_, ~m(filter)a, _) do
+    Accounts.list_users(filter)
+  end
+
+  def list_users(_, _, _) do
+    Accounts.list_users(%{page: 1, size: 10})
   end
 
   def register(_, %{input: input}, _) do
     input = Map.merge(input, %{avatar: Gravity.image(input.email)})
 
-    with {:ok, user} <- Accounts.create_user(input) do
-      {:ok, %{user: user}}
-    end
+    Accounts.create_user(input)
   end
 
   def login(_, %{email: email, password: password}, _) do
-    with {:ok, user} <- Accounts.Session.authenticate(email, password),
+    with {:ok, user} <- Accounts.authenticate(email, password),
          {:ok, jwt_token, _} <- Accounts.Guardian.encode_and_sign(user) do
       {:ok, %{token: jwt_token, user: user}}
     end
