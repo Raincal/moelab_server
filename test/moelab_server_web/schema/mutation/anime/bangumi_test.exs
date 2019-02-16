@@ -29,8 +29,8 @@ defmodule MoelabServerWeb.Schema.Mutation.Anime.BangumiTest do
   end
 
   @query """
-  mutation ($bangumi_id: ID!) {
-    updateBangumi (bangumi_id: $bangumi_id, input: {bgPhoto: "Some Photo", currentSeason: 0, state: 0, casts: "Some Casts", pubYear: "1999", title: "Some new title", originalTitle: "Some title", mainlandPubdate: "2019", briefSummary: "Some Summary", aka: "Some aka", rgb: "rgb", photo: "Some Photo", refreshTag: "7", currentSeries: 872.0, seasonsCount: 0, directors: "Some Directors", summary: "Some Summary", languages: "English", rating: 9.5, episodesCount: 666, countries: "USA", auditStatus: 3, subtype: "animation", vo_id: "Some VoId"}) {
+  mutation ($id: ID!) {
+    updateBangumi (id: $id, input: {bgPhoto: "Some Photo", currentSeason: 0, state: 0, casts: "Some Casts", pubYear: "1999", title: "Some new title", originalTitle: "Some title", mainlandPubdate: "2019", briefSummary: "Some Summary", aka: "Some aka", rgb: "rgb", photo: "Some Photo", refreshTag: "7", currentSeries: 872.0, seasonsCount: 0, directors: "Some Directors", summary: "Some Summary", languages: "English", rating: 9.5, episodesCount: 666, countries: "USA", auditStatus: 3, subtype: "animation", vo_id: "Some VoId"}) {
       title
     }
   }
@@ -41,7 +41,7 @@ defmodule MoelabServerWeb.Schema.Mutation.Anime.BangumiTest do
     response =
       post(conn, "/api", %{
         query: @query,
-        variables: %{"bangumi_id" => bangumi.id}
+        variables: %{"id" => bangumi.id}
       })
 
     assert %{
