@@ -3,12 +3,12 @@ defmodule MoelabServerWeb.Schema.Mutation.Anime.BangumiTest do
 
   @query """
   mutation {
-    createBangumi(input: {bgPhoto: "http://img.neets.cc/video/9b19b45377054c8ebc8eeec9a0f76ed6/large.jpg?x-oss-process=style/bgWebp", voId: "9b19b45377054c8ebc8eeec9a0f76ed6", currentSeason: 0, state: 0, casts: "中井和哉,田中真弓,冈村明美,平田广明", pubYear: "1999", title: "海贼王", originalTitle: "ワンピース", mainlandPubdate: "1999-10-20(日本)", briefSummary: "one piece", aka: "航海王,one piece", rgb: "b9b974", photo: "http://img.neets.cc/video/9b19b45377054c8ebc8eeec9a0f76ed6/large.jpg?x-oss-process=style/normalWebp", refreshTag: "7", currentSeries: 872.0, seasonsCount: 0, directors: "", summary: "one piece", languages: "日语", rating: 9.5, episodesCount: 999, countries: "日本", id: 1, auditStatus: 3, subtype: "animation"}) {
+    createBangumi(input: {bgPhoto: "Some Photo", currentSeason: 0, state: 0, casts: "Some Casts", pubYear: "1999", title: "Some title", originalTitle: "Some title", mainlandPubdate: "2019", briefSummary: "Some Summary", aka: "Some aka", rgb: "rgb", photo: "Some Photo", refreshTag: "7", currentSeries: 872.0, seasonsCount: 0, directors: "Some Directors", summary: "Some Summary", languages: "English", rating: 9.5, episodesCount: 666, countries: "USA", id: 1, auditStatus: 3, subtype: "animation", vo_id: "Some VoId"}) {
       title
     }
   }
   """
-  test "creating an bangumi", %{conn: conn} do
+  test "create a bangumi", %{conn: conn} do
     response =
       post(conn, "/api", %{
         query: @query
@@ -22,6 +22,33 @@ defmodule MoelabServerWeb.Schema.Mutation.Anime.BangumiTest do
              }
            } = json_response(response, 200)
 
-    assert "海贼王" == title
+    assert "Some title" == title
+  end
+
+  @query """
+  mutation ($bangumi_id: ID!) {
+    updateBangumi (bangumi_id: $bangumi_id, input: {bgPhoto: "Some Photo", currentSeason: 0, state: 0, casts: "Some Casts", pubYear: "1999", title: "Some new title", originalTitle: "Some title", mainlandPubdate: "2019", briefSummary: "Some Summary", aka: "Some aka", rgb: "rgb", photo: "Some Photo", refreshTag: "7", currentSeries: 872.0, seasonsCount: 0, directors: "Some Directors", summary: "Some Summary", languages: "English", rating: 9.5, episodesCount: 666, countries: "USA", auditStatus: 3, subtype: "animation", vo_id: "Some VoId"}) {
+      title
+    }
+  }
+  """
+  test "update a bangumi", %{conn: conn} do
+    bangumi = Factory.create_bangumi()
+
+    response =
+      post(conn, "/api", %{
+        query: @query,
+        variables: %{"bangumi_id" => bangumi.id}
+      })
+
+    assert %{
+             "data" => %{
+               "updateBangumi" => %{
+                 "title" => title
+               }
+             }
+           } = json_response(response, 200)
+
+    assert "Some new title" == title
   end
 end

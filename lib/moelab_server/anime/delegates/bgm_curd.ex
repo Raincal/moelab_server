@@ -29,7 +29,8 @@ defmodule MoelabServer.Anime.Delegates.BgmCURD do
   @doc """
   Updates a bangumi.
   """
-  def update_bangumi(%Bangumi{} = bangumi, attrs), do: ORM.update(bangumi, attrs)
+  def update_bangumi(bangumi_id, attrs), do: Bangumi |> ORM.find_update(bangumi_id, attrs)
+  def update_bangumi(attrs), do: Bangumi |> ORM.find_update(attrs)
 
   @doc """
   Deletes a Bangumi.

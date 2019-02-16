@@ -16,6 +16,16 @@ defmodule MoelabServerWeb.Resolvers.AnimeResolver do
     Anime.create_bangumi(bangumi_input)
   end
 
+  def update_bangumi(_, ~m(bangumi_id input)a, %{context: %{current_user: current_user}}) do
+    bangumi_input = Map.merge(input, %{creater_id: current_user.id})
+    Anime.update_bangumi(bangumi_id, bangumi_input)
+  end
+
+  def update_bangumi(_, %{input: input}, %{context: %{current_user: current_user}}) do
+    bangumi_input = Map.merge(input, %{creater_id: current_user.id})
+    Anime.update_bangumi(bangumi_input)
+  end
+
   def subscribe_bangumi(_, ~m(bangumi_id)a, %{context: %{current_user: current_user}}) do
     Anime.subscribe_bangumi(%Anime.Bangumi{id: bangumi_id}, current_user)
   end
