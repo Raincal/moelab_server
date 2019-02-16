@@ -1,6 +1,7 @@
 defmodule MoelabServerWeb.Resolvers.AnimeResolver do
   import ShortMaps
   alias MoelabServer.Anime
+  alias Helper.ORM
 
   def all_bangumi(_, ~m(filter)a, _) do
     Anime.list_bangumi(filter)
@@ -25,6 +26,8 @@ defmodule MoelabServerWeb.Resolvers.AnimeResolver do
     bangumi_input = Map.merge(input, %{creater_id: current_user.id})
     Anime.update_bangumi(bangumi_input)
   end
+
+  def delete_bangumi(_, ~m(id)a, _), do: Anime.Bangumi |> ORM.find_delete(id)
 
   def subscribe_bangumi(_, ~m(bangumi_id)a, %{context: %{current_user: current_user}}) do
     Anime.subscribe_bangumi(%Anime.Bangumi{id: bangumi_id}, current_user)

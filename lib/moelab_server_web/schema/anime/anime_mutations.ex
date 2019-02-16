@@ -20,6 +20,13 @@ defmodule MoelabServerWeb.Schema.Anime.AnimeMutations do
       resolve(&Resolvers.AnimeResolver.update_bangumi/3)
     end
 
+    @desc "Delete a bangumi"
+    field :delete_bangumi, :bangumi do
+      arg(:id, non_null(:id))
+      middleware(Middleware.Authorize, :any)
+      resolve(&Resolvers.AnimeResolver.delete_bangumi/3)
+    end
+
     @desc "Subscribe a bangumi"
     field :subscribe_bangumi, :bangumi do
       arg(:bangumi_id, non_null(:id))

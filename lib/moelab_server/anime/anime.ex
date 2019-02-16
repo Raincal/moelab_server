@@ -9,7 +9,6 @@ defmodule MoelabServer.Anime do
   defdelegate create_bangumi(attrs), to: BgmCURD
   defdelegate update_bangumi(bangumi_id, attrs), to: BgmCURD
   defdelegate update_bangumi(attrs), to: BgmCURD
-  defdelegate delete_bangumi(bangumi), to: BgmCURD
 
   defdelegate bangumi_subscribers(bangumi, filters), to: BgmCURD
 

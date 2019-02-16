@@ -33,11 +33,6 @@ defmodule MoelabServer.Anime.Delegates.BgmCURD do
   def update_bangumi(attrs), do: Bangumi |> ORM.find_update(attrs)
 
   @doc """
-  Deletes a Bangumi.
-  """
-  def delete_bangumi(%Bangumi{} = bangumi), do: ORM.delete(bangumi)
-
-  @doc """
   Get a list of bangumi subscribers
   """
   def bangumi_subscribers(%Bangumi{id: id}, ~m(page size)a = filter)
