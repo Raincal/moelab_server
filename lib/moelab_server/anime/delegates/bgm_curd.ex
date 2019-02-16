@@ -14,23 +14,7 @@ defmodule MoelabServer.Anime.Delegates.BgmCURD do
   @doc """
   Returns the list of bangumi.
   """
-  def list_bangumi(filter), do: ORM.find_all(Bangumi, filter)
-
-  @doc """
-  Gets a single bangumi.
-  """
-  def get_bangumi(id), do: ORM.find(Bangumi, id)
-
-  @doc """
-  Creates a bangumi.
-  """
-  def create_bangumi(attrs \\ %{}), do: ORM.create(Bangumi, attrs)
-
-  @doc """
-  Updates a bangumi.
-  """
-  def update_bangumi(bangumi_id, attrs), do: Bangumi |> ORM.find_update(bangumi_id, attrs)
-  def update_bangumi(attrs), do: Bangumi |> ORM.find_update(attrs)
+  def list_bangumi(filter), do: Bangumi |> ORM.find_all(filter)
 
   @doc """
   Get a list of bangumi subscribers

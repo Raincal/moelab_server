@@ -3,6 +3,12 @@ defmodule MoelabServerWeb.Schema.Anime.AnimeQueries do
   alias MoelabServerWeb.Resolvers
 
   object :anime_queries do
+    @desc "Get a bangumi"
+    field :bangumi, :bangumi do
+      arg(:id, non_null(:id))
+      resolve(&Resolvers.AnimeResolver.bangumi/3)
+    end
+
     @desc "Get a list of all bangumi"
     field :all_bangumi, :paged_bangumi do
       arg(:filter, :bangumi_filter)
