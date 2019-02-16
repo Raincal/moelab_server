@@ -13,5 +13,6 @@ defmodule MoelabServer.Anime.BangumiGenre do
     bangumi_genre
     |> cast(attrs, [:bangumi_id, :genre_id])
     |> validate_required([:bangumi_id, :genre_id])
+    |> unique_constraint(:bangumi_id, name: :bangumi_genres_bangumi_id_genre_id_index)
   end
 end

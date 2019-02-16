@@ -49,5 +49,6 @@ defmodule MoelabServer.Anime.Bangumi do
     bangumi
     |> cast(attrs, @optional_fields ++ @required_fields)
     |> validate_required(@required_fields)
+    |> unique_constraint(:vo_id)
   end
 end

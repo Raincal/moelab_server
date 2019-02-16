@@ -13,5 +13,6 @@ defmodule MoelabServer.Anime.BangumiTag do
     bangumi_tag
     |> cast(attrs, [:bangumi_id, :tag_id])
     |> validate_required([:bangumi_id, :tag_id])
+    |> unique_constraint(:bangumi_id, name: :bangumi_tags_bangumi_id_tag_id_index)
   end
 end
