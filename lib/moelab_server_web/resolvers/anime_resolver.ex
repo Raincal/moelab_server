@@ -13,9 +13,7 @@ defmodule MoelabServerWeb.Resolvers.AnimeResolver do
   def create_bangumi(_, %{input: input}, %{context: %{current_user: current_user}}) do
     bangumi_input = Map.merge(input, %{creater_id: current_user.id})
 
-    with {:ok, bangumi} <- Anime.create_bangumi(bangumi_input) do
-      {:ok, bangumi}
-    end
+    Anime.create_bangumi(bangumi_input)
   end
 
   def subscribe_bangumi(_, ~m(bangumi_id)a, %{context: %{current_user: current_user}}) do
@@ -33,10 +31,10 @@ defmodule MoelabServerWeb.Resolvers.AnimeResolver do
   def bangumi_subscribers(_, _, _), do: {:error, "invalid args"}
 
   def create_tag(_, %{bangumi_id: bid, name: tag_name}, _) do
-    {:ok, Anime.create_tag(bid, tag_name)}
+    Anime.create_tag(bid, tag_name)
   end
 
   def create_genre(_, %{bangumi_id: bid, name: genre_name}, _) do
-    {:ok, Anime.create_genre(bid, genre_name)}
+    Anime.create_genre(bid, genre_name)
   end
 end
