@@ -12,6 +12,11 @@ defmodule MoelabServer.Anime.Delegates.BgmCURD do
   alias MoelabServer.Anime.{Bangumi, BangumiSubscriber}
 
   @doc """
+  Returns the list of bangumi.
+  """
+  def list_bangumi(filter), do: ORM.find_all(Bangumi, filter)
+
+  @doc """
   Get a list of bangumi subscribers
   """
   def bangumi_subscribers(%Bangumi{id: id}, ~m(page size)a = filter)

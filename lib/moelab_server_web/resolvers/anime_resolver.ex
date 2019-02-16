@@ -2,8 +2,12 @@ defmodule MoelabServerWeb.Resolvers.AnimeResolver do
   import ShortMaps
   alias MoelabServer.Anime
 
-  def all_bangumi(_, args, _) do
-    {:ok, Anime.list_bangumi(args)}
+  def all_bangumi(_, ~m(filter)a, _) do
+    Anime.list_bangumi(filter)
+  end
+
+  def all_bangumi(_, _, _) do
+    Anime.list_bangumi(%{page: 1, size: 10})
   end
 
   def create_bangumi(_, %{input: input}, %{context: %{current_user: current_user}}) do

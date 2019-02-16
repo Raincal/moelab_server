@@ -12,10 +12,13 @@ defmodule Helper.QueryBuilder do
     Enum.reduce(filter, queryable, fn
       # Sort
       {:sort, :new}, queryable ->
-        queryable |> order_by([sb, b], desc: b.recent_update_time)
+        queryable |> order_by(desc: :recent_update_time)
 
       {:sort, :hot}, queryable ->
-        queryable |> order_by([sb, b], desc: b.hot)
+        queryable |> order_by(desc: :hot)
+
+      {:sort, :recent}, queryable ->
+        queryable |> order_by([sb, b], desc: b.recent_update_time)
 
       # Filter
       {:title, title}, queryable ->

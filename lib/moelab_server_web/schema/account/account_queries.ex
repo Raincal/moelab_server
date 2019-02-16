@@ -15,7 +15,7 @@ defmodule MoelabServerWeb.Schema.Account.AccountQueries do
     @desc "Get a list of subscribed bangumi"
     field :subscribed_bangumi, :paged_bangumi do
       arg(:user_id, :id)
-      arg(:filter, non_null(:paged_filter))
+      arg(:filter, non_null(:sub_bangumi_filter))
       middleware(Middleware.Authorize, :any)
       resolve(&Resolvers.AccountsResolver.subscribed_bangumi/3)
     end

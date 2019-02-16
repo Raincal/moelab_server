@@ -1,14 +1,13 @@
 defmodule MoelabServerWeb.Schema.Util.CommonTypes do
   use Absinthe.Schema.Notation
 
-  enum :sort_order do
-    value(:asc)
-    value(:desc)
-  end
-
-  enum :sort_enum do
+  enum :bangumi_sort_enum do
     value(:hot)
     value(:new)
+  end
+
+  enum :sub_bangumi_sort_enum do
+    value(:recent)
   end
 
   enum :user_sort_enum do

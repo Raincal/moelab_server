@@ -21,8 +21,8 @@ defmodule MoelabServerWeb.Schema.Account.AccountTypes do
     pagination_args()
   end
 
-  input_object :paged_filter do
-    field(:sort, :sort_enum)
+  input_object :sub_bangumi_filter do
+    field(:sort, :sub_bangumi_sort_enum)
     pagination_args()
   end
 

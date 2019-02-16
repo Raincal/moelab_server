@@ -8,6 +8,9 @@ defmodule MoelabServerWeb.Schema.Anime.AnimeTypes do
   input_object :bangumi_filter do
     pagination_args()
 
+    @desc "Sort"
+    field(:sort, :bangumi_sort_enum)
+
     @desc "Matching a title"
     field(:title, :string)
 

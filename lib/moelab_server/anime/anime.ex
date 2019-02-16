@@ -10,75 +10,11 @@ defmodule MoelabServer.Anime do
 
   alias MoelabServer.Anime.{Bangumi, BangumiTag, BangumiGenre, Genre, Tag}
 
-  defdelegate subscribe_bangumi(bangumi, user), to: BgmOperation
-  defdelegate unsubscribe_bangumi(bangumi, user), to: BgmOperation
+  defdelegate list_bangumi(filter), to: BgmCURD
   defdelegate bangumi_subscribers(bangumi, filters), to: BgmCURD
 
-  @doc """
-  Returns the list of bangumi.
-  """
-  def list_bangumi(%{filter: %{page: page, size: size}} = args) do
-    args
-    |> Enum.reduce(Bangumi, fn
-      {:order, order}, query ->
-        query |> order_by({^order, :recent_update_time})
-
-      {:filter, filter}, query ->
-        query |> filter_with(filter)
-    end)
-    |> Repo.paginate(page: page, page_size: size)
-  end
-
-  def list_bangumi(args) do
-    args
-    |> Enum.reduce(Bangumi, fn
-      {:order, order}, query ->
-        query |> order_by({^order, :recent_update_time})
-
-      {:filter, filter}, query ->
-        query |> filter_with(filter)
-    end)
-    |> Repo.paginate()
-  end
-
-  defp filter_with(query, filter) do
-    Enum.reduce(filter, query, fn
-      {:page, _page}, query ->
-        query
-
-      {:size, _size}, query ->
-        query
-
-      {:title, title}, query ->
-        from(q in query, where: ilike(q.title, ^"%#{title}%"))
-
-      {:country, country}, query ->
-        from(q in query, where: ilike(q.countries, ^"%#{country}%"))
-
-      {:state, state}, query ->
-        from(q in query, where: ilike(q.state, ^"%#{state}%"))
-
-      {:year, year}, query ->
-        from(q in query, where: ilike(q.pub_year, ^"%#{year}%"))
-
-      {:week, week}, query ->
-        from(q in query, where: ilike(q.refresh_tag, ^"%#{week}%"))
-
-      {:genre, genre_name}, query ->
-        from(
-          q in query,
-          join: g in assoc(q, :genres),
-          where: ilike(g.name, ^"%#{genre_name}%")
-        )
-
-      {:tag, tag_name}, query ->
-        from(
-          q in query,
-          join: t in assoc(q, :tags),
-          where: ilike(t.name, ^"%#{tag_name}%")
-        )
-    end)
-  end
+  defdelegate subscribe_bangumi(bangumi, user), to: BgmOperation
+  defdelegate unsubscribe_bangumi(bangumi, user), to: BgmOperation
 
   @doc """
   Gets a single bangumi.
