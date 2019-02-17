@@ -1,6 +1,16 @@
 defmodule Helper.QueryBuilder do
   import Ecto.Query, warn: false
 
+  def members_pack(queryable, %{filter: filter}) do
+    queryable |> load_inner_users(filter)
+  end
+
+  def members_pack(queryable, %{count: _, type: :bangumi}) do
+    queryable
+    |> group_by([f], f.bangumi_id)
+    |> select([f], count(f.id))
+  end
+
   def load_inner_users(queryable, filter) do
     queryable
     |> join(:inner, [f], u in assoc(f, :user))
@@ -49,6 +59,9 @@ defmodule Helper.QueryBuilder do
           join: t in assoc(q, :genres),
           where: t.name == ^genre
         )
+
+      {:first, first}, queryable ->
+        queryable |> limit(^first)
 
       {_, _}, queryable ->
         queryable

@@ -43,6 +43,17 @@ defmodule MoelabServerWeb.Schema.Anime.AnimeTypes do
     field(:creater, :user, resolve: dataloader(Anime))
     field(:genres, list_of(:genre), resolve: dataloader(Anime))
     field(:tags, list_of(:tag), resolve: dataloader(Anime))
+
+    field :subscribers, list_of(:user) do
+      arg(:filter, :members_filter)
+      resolve(dataloader(Anime))
+    end
+
+    field :subscribers_count, :integer do
+      arg(:count, :count_type, default_value: :count)
+      arg(:type, :bangumi_type, default_value: :bangumi)
+      resolve(dataloader(Anime, :subscribers))
+    end
   end
 
   input_object :bangumi_input do

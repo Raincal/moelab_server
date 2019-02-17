@@ -17,7 +17,7 @@ defmodule MoelabServerWeb.Schema.Anime.AnimeQueries do
 
     @desc "Paged subscribers of a bangumi"
     field :bangumi_subscribers, :paged_users do
-      arg(:bangumi_id, :id)
+      arg(:id, :id)
       arg(:filter, :user_paged_filter)
       resolve(&Resolvers.AnimeResolver.bangumi_subscribers/3)
     end
