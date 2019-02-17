@@ -17,10 +17,9 @@ defmodule MoelabServer.Seeds do
   defp insert_user do
     Accounts.create_user(%{
       email: "foo@example.com",
-      name: "foo",
+      login: "foo",
       password: "foo123",
       password_confirmation: "foo123",
-      username: "foo",
       avatar: "abc"
     })
   end

@@ -19,7 +19,10 @@ defmodule MoelabServer.Accounts.Delegates.User do
   @doc """
   Creates a user.
   """
-  def create_user(attrs \\ %{}), do: ORM.create(User, attrs)
+  def create_user(attrs \\ %{}) do
+    input_attrs = Map.merge(attrs, %{avatar: Gravity.image(attrs.email), nickname: attrs.login})
+    ORM.create(User, input_attrs)
+  end
 
   @doc """
   Updates a user.

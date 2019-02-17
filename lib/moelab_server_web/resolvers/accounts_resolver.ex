@@ -10,11 +10,7 @@ defmodule MoelabServerWeb.Resolvers.AccountsResolver do
     Accounts.list_users(%{page: 1, size: 10})
   end
 
-  def register(_, %{input: input}, _) do
-    input = Map.merge(input, %{avatar: Gravity.image(input.email)})
-
-    Accounts.create_user(input)
-  end
+  def register(_, ~m(input)a, _), do: Accounts.create_user(input)
 
   def login(_, %{email: email, password: password}, _) do
     with {:ok, user} <- Accounts.authenticate(email, password),

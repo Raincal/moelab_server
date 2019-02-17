@@ -4,8 +4,8 @@ defmodule MoelabServerWeb.Schema.Account.AccountTypes do
 
   object :user do
     field(:id, :id)
-    field(:name, :string)
-    field(:username, :string)
+    field(:login, :string)
+    field(:nickname, :string)
     field(:email, :string)
     field(:avatar, :string)
     field(:role, :string)
@@ -27,8 +27,7 @@ defmodule MoelabServerWeb.Schema.Account.AccountTypes do
   end
 
   input_object :user_input do
-    field(:name, non_null(:string))
-    field(:username, non_null(:string))
+    field(:login, non_null(:string))
     field(:email, non_null(:string))
     field(:role, :string)
     field(:password, non_null(:string))

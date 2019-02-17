@@ -3,8 +3,8 @@ defmodule MoelabServer.Repo.Migrations.CreateUsers do
 
   def change do
     create table(:users) do
-      add :name, :string
-      add :username, :string
+      add :login, :string
+      add :nickname, :string
       add :email, :string
       add :password_hash, :string
       add :avatar, :string
@@ -14,6 +14,6 @@ defmodule MoelabServer.Repo.Migrations.CreateUsers do
     end
 
     create(unique_index(:users, [:email]))
-    create(unique_index(:users, [:username]))
+    create(unique_index(:users, [:login]))
   end
 end

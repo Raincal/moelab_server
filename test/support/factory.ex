@@ -5,8 +5,8 @@ defmodule Factory do
     int = :erlang.unique_integer([:positive, :monotonic])
 
     params = %{
-      name: "Person #{int}",
-      username: "person#{int}",
+      login: "person#{int}",
+      nickname: "person#{int}",
       avatar: "some avatar",
       email: "fake-#{int}@example.com",
       password: "super-secret",
