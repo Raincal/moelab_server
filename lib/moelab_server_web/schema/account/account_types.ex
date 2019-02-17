@@ -38,15 +38,4 @@ defmodule MoelabServerWeb.Schema.Account.AccountTypes do
     field(:token, :string)
     field(:user, :user)
   end
-
-  object :register_result do
-    field(:user, :user)
-    field(:errors, list_of(:validation_error))
-  end
-
-  @desc "An error encountered trying to persist input"
-  object :validation_error do
-    field(:key, non_null(:string))
-    field(:message, non_null(:string))
-  end
 end

@@ -5,7 +5,7 @@ defmodule MoelabServerWeb.Schema.Account.AccountMutations do
 
   object :account_mutations do
     @desc "Register a new user"
-    field :register, :register_result do
+    field :register, :user do
       arg(:input, non_null(:user_input))
       resolve(&Resolvers.AccountsResolver.register/3)
     end
