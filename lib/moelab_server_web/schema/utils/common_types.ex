@@ -17,6 +17,7 @@ defmodule MoelabServerWeb.Schema.Util.CommonTypes do
     value(:username)
   end
 
+  enum(:viewer_did_type, do: value(:viewer_did))
   enum(:count_type, do: value(:count))
   enum(:bangumi_type, do: value(:bangumi))
 

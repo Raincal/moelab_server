@@ -3,6 +3,7 @@ defmodule MoelabServerWeb.Schema.Anime.AnimeTypes do
   import Absinthe.Resolution.Helpers
   import MoelabServerWeb.Schema.Utils.Helper
   alias MoelabServer.Anime
+  alias MoelabServerWeb.Schema.Middleware
 
   @desc "Filtering options for the bangumi list"
   input_object :bangumi_filter do
@@ -44,6 +45,15 @@ defmodule MoelabServerWeb.Schema.Anime.AnimeTypes do
     field(:genres, list_of(:genre), resolve: dataloader(Anime))
     field(:tags, list_of(:tag), resolve: dataloader(Anime))
 
+    field :viewer_has_subscribed, :boolean do
+      arg(:viewer_did, :viewer_did_type, default_value: :viewer_did)
+
+      middleware(Middleware.Authorize, :any)
+      middleware(Middleware.PutCurrentUser)
+      resolve(dataloader(Anime, :subscribers))
+      middleware(Middleware.ViewerDidConvert)
+    end
+
     field :subscribers, list_of(:user) do
       arg(:filter, :members_filter)
       resolve(dataloader(Anime))
@@ -53,6 +63,7 @@ defmodule MoelabServerWeb.Schema.Anime.AnimeTypes do
       arg(:count, :count_type, default_value: :count)
       arg(:type, :bangumi_type, default_value: :bangumi)
       resolve(dataloader(Anime, :subscribers))
+      middleware(Middleware.ConvertToInt)
     end
   end
 

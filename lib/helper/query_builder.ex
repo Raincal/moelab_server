@@ -5,6 +5,10 @@ defmodule Helper.QueryBuilder do
     queryable |> load_inner_users(filter)
   end
 
+  def members_pack(queryable, %{viewer_did: _, current_user: current_user}) do
+    queryable |> where([f], f.user_id == ^current_user.id)
+  end
+
   def members_pack(queryable, %{count: _, type: :bangumi}) do
     queryable
     |> group_by([f], f.bangumi_id)
