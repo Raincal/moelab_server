@@ -53,6 +53,7 @@ defmodule MoelabServer.MixProject do
       {:dataloader, "~> 1.0.0"},
       {:apollo_tracing, "~> 0.4.0"},
       {:short_maps, "~> 0.1.1"},
+      {:cors_plug, "~> 2.0"},
       {:scrivener_ecto,
        git: "https://github.com/mastani-stack/scrivener_ecto", branch: "dev", override: true}
     ]
