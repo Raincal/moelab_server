@@ -2,6 +2,14 @@ defmodule MoelabServerWeb.Resolvers.AccountsResolver do
   import ShortMaps
   alias MoelabServer.Accounts
 
+  def me(_, _, %{context: %{current_user: current_user}}) do
+    {:ok, current_user}
+  end
+
+  def me(_, _, _) do
+    {:ok, nil}
+  end
+
   def list_users(_, ~m(filter)a, _) do
     Accounts.list_users(filter)
   end

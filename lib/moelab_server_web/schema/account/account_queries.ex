@@ -4,7 +4,13 @@ defmodule MoelabServerWeb.Schema.Account.AccountQueries do
   alias MoelabServerWeb.Resolvers
   alias MoelabServerWeb.Schema.Middleware
 
+  @desc "Get current user"
   object :account_queries do
+    field :me, :user do
+      middleware(Middleware.Authorize, :any)
+      resolve(&Resolvers.AccountsResolver.me/3)
+    end
+
     @desc "Get a list of all users"
     field :users, list_of(:paged_users) do
       arg(:filter, :user_paged_filter)
