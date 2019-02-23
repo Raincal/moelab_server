@@ -3,10 +3,14 @@ defmodule MoelabServerWeb.Schema.Anime.AnimeTypes do
   import Absinthe.Resolution.Helpers
   import MoelabServerWeb.Schema.Utils.Helper
   alias MoelabServer.Anime
+  alias MoelabServerWeb.Schema.Middleware
 
   @desc "Filtering options for the bangumi list"
   input_object :bangumi_filter do
     pagination_args()
+
+    @desc "Sort"
+    field(:sort, :bangumi_sort_enum)
 
     @desc "Matching a title"
     field(:title, :string)
@@ -36,34 +40,35 @@ defmodule MoelabServerWeb.Schema.Anime.AnimeTypes do
   end
 
   object :bangumi do
-    field(:id, :id)
-    field(:countries, :string)
-    field(:rating, :float)
-    field(:rgb, :string)
-    field(:episodes_count, :integer)
-    field(:bg_photo, :string)
-    field(:refresh_tag, :string)
-    field(:summary, :string)
-    field(:subtype, :string)
-    field(:recent_update_time, :datetime)
-    field(:original_title, :string)
-    field(:directors, :string)
-    field(:audit_status, :integer)
-    field(:current_series, :float)
-    field(:current_season, :integer)
-    field(:title, :string)
-    field(:aka, :string)
-    field(:languages, :string)
-    field(:pub_year, :string)
-    field(:mainland_pubdate, :string)
-    field(:state, :integer)
-    field(:brief_summary, :string)
-    field(:photo, :string)
-    field(:seasons_count, :integer)
-    field(:casts, :string)
-    field(:vo_id, :string)
+    bangumi_args()
+    field(:creater, :user, resolve: dataloader(Anime))
     field(:genres, list_of(:genre), resolve: dataloader(Anime))
     field(:tags, list_of(:tag), resolve: dataloader(Anime))
+
+    field :viewer_has_subscribed, :boolean do
+      arg(:viewer_did, :viewer_did_type, default_value: :viewer_did)
+
+      middleware(Middleware.Authorize, :any)
+      middleware(Middleware.PutCurrentUser)
+      resolve(dataloader(Anime, :subscribers))
+      middleware(Middleware.ViewerDidConvert)
+    end
+
+    field :subscribers, list_of(:user) do
+      arg(:filter, :members_filter)
+      resolve(dataloader(Anime))
+    end
+
+    field :subscribers_count, :integer do
+      arg(:count, :count_type, default_value: :count)
+      arg(:type, :bangumi_type, default_value: :bangumi)
+      resolve(dataloader(Anime, :subscribers))
+      middleware(Middleware.ConvertToInt)
+    end
+  end
+
+  input_object :bangumi_input do
+    bangumi_args()
   end
 
   object :genre do
@@ -72,5 +77,15 @@ defmodule MoelabServerWeb.Schema.Anime.AnimeTypes do
 
   object :tag do
     field(:name, :string)
+  end
+
+  object :bangumi_tag do
+    field(:bangumi, :bangumi, resolve: dataloader(Anime))
+    field(:tag, :tag, resolve: dataloader(Anime))
+  end
+
+  object :bangumi_genre do
+    field(:bangumi, :bangumi, resolve: dataloader(Anime))
+    field(:genre, :genre, resolve: dataloader(Anime))
   end
 end

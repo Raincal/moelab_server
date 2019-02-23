@@ -13,6 +13,7 @@ defmodule MoelabServerWeb.Router do
 
     forward("/graphiql", Absinthe.Plug.GraphiQL,
       schema: MoelabServerWeb.Schema,
+      pipeline: {ApolloTracing.Pipeline, :plug},
       interface: :playground
     )
   end

@@ -15,6 +15,8 @@ defmodule MoelabServerWeb.ConnCase do
 
   use ExUnit.CaseTemplate
 
+  import MoelabServer.Accounts.Guardian
+
   using do
     quote do
       # Import conveniences for testing with connections
@@ -34,5 +36,16 @@ defmodule MoelabServerWeb.ConnCase do
     end
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}
+  end
+
+  setup do
+    {:ok, token, _} = encode_and_sign(Factory.create_user("user"), %{}, token_type: :access)
+
+    conn =
+      Phoenix.ConnTest.build_conn()
+      |> Plug.Conn.put_req_header("authorization", "Bearer #{token}")
+      |> Plug.Conn.put_req_header("content-type", "application/json")
+
+    {:ok, %{conn: conn}}
   end
 end

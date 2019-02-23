@@ -2,15 +2,19 @@ defmodule MoelabServer.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias MoelabServer.Anime.BangumiSubscriber
+
   schema "users" do
     field(:email, :string, unique: true)
-    field(:name, :string)
-    field(:username, :string)
+    field(:login, :string, unique: true)
+    field(:nickname, :string)
     field(:avatar, :string)
     field(:password_hash, :string)
     field(:password, :string, virtual: true)
     field(:password_confirmation, :string, virtual: true)
     field(:role, :string, default: "user")
+
+    has_many(:subscribed_bangumi, BangumiSubscriber)
 
     timestamps()
   end
@@ -18,10 +22,10 @@ defmodule MoelabServer.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:name, :username, :email, :password, :password_confirmation, :avatar, :role])
+    |> cast(attrs, [:login, :nickname, :email, :password, :password_confirmation, :avatar, :role])
     |> validate_required([
-      :name,
-      :username,
+      :login,
+      :nickname,
       :email,
       :password,
       :password_confirmation,
@@ -33,7 +37,7 @@ defmodule MoelabServer.Accounts.User do
     |> validate_length(:password, min: 6, max: 100)
     |> validate_confirmation(:password)
     |> unique_constraint(:email)
-    |> unique_constraint(:username)
+    |> unique_constraint(:login)
     |> put_pass_hash()
   end
 
