@@ -6,9 +6,111 @@ defmodule MoelabServer.AnimeTest do
   describe "bangumi" do
     alias MoelabServer.Anime.Bangumi
 
-    @valid_attrs %{voId: "some voId", casts: "some casts", thumbs: "some thumbs", seasonsCount: 42, photo: "some photo", refreshTagTxt: "some refreshTagTxt", briefSummary: "some briefSummary", state: 42, mainlandPubdate: "some mainlandPubdate", pubYear: "some pubYear", languages: "some languages", tags: "some tags", aka: "some aka", title: "some title", currentSeason: 42, currentSeries: 42, auditStatus: 42, subtypeTxt: "some subtypeTxt", auditStatusTxt: "some auditStatusTxt", directors: "some directors", originalTitle: "some originalTitle", recentUpdateTime: "2010-04-17T14:00:00.000000Z", genres: "some genres", subtype: "some subtype", summary: "some summary", refreshTag: "some refreshTag", bgPhoto: "some bgPhoto", episodesCount: 42, tagsTxt: "some tagsTxt", rgb: "some rgb", rating: 120.5, countries: "some countries", stateTxt: "some stateTxt"}
-    @update_attrs %{voId: "some updated voId", casts: "some updated casts", thumbs: "some updated thumbs", seasonsCount: 43, photo: "some updated photo", refreshTagTxt: "some updated refreshTagTxt", briefSummary: "some updated briefSummary", state: 43, mainlandPubdate: "some updated mainlandPubdate", pubYear: "some updated pubYear", languages: "some updated languages", tags: "some updated tags", aka: "some updated aka", title: "some updated title", currentSeason: 43, currentSeries: 43, auditStatus: 43, subtypeTxt: "some updated subtypeTxt", auditStatusTxt: "some updated auditStatusTxt", directors: "some updated directors", originalTitle: "some updated originalTitle", recentUpdateTime: "2011-05-18T15:01:01.000000Z", genres: "some updated genres", subtype: "some updated subtype", summary: "some updated summary", refreshTag: "some updated refreshTag", bgPhoto: "some updated bgPhoto", episodesCount: 43, tagsTxt: "some updated tagsTxt", rgb: "some updated rgb", rating: 456.7, countries: "some updated countries", stateTxt: "some updated stateTxt"}
-    @invalid_attrs %{voId: nil, casts: nil, thumbs: nil, seasonsCount: nil, photo: nil, refreshTagTxt: nil, briefSummary: nil, state: nil, mainlandPubdate: nil, pubYear: nil, languages: nil, tags: nil, aka: nil, title: nil, currentSeason: nil, currentSeries: nil, auditStatus: nil, subtypeTxt: nil, auditStatusTxt: nil, directors: nil, originalTitle: nil, recentUpdateTime: nil, genres: nil, subtype: nil, summary: nil, refreshTag: nil, bgPhoto: nil, episodesCount: nil, tagsTxt: nil, rgb: nil, rating: nil, countries: nil, stateTxt: nil}
+    @valid_attrs %{
+      voId: "some voId",
+      casts: "some casts",
+      thumbs: "some thumbs",
+      seasonsCount: 42,
+      photo: "some photo",
+      refreshTagTxt: "some refreshTagTxt",
+      briefSummary: "some briefSummary",
+      state: 42,
+      mainlandPubdate: "some mainlandPubdate",
+      pubYear: "some pubYear",
+      languages: "some languages",
+      tags: "some tags",
+      aka: "some aka",
+      title: "some title",
+      currentSeason: 42,
+      currentSeries: 42,
+      auditStatus: 42,
+      subtypeTxt: "some subtypeTxt",
+      auditStatusTxt: "some auditStatusTxt",
+      directors: "some directors",
+      originalTitle: "some originalTitle",
+      recentUpdateTime: "2010-04-17T14:00:00.000000Z",
+      genres: "some genres",
+      subtype: "some subtype",
+      summary: "some summary",
+      refreshTag: "some refreshTag",
+      bgPhoto: "some bgPhoto",
+      episodesCount: 42,
+      tagsTxt: "some tagsTxt",
+      rgb: "some rgb",
+      rating: 120.5,
+      countries: "some countries",
+      stateTxt: "some stateTxt"
+    }
+    @update_attrs %{
+      voId: "some updated voId",
+      casts: "some updated casts",
+      thumbs: "some updated thumbs",
+      seasonsCount: 43,
+      photo: "some updated photo",
+      refreshTagTxt: "some updated refreshTagTxt",
+      briefSummary: "some updated briefSummary",
+      state: 43,
+      mainlandPubdate: "some updated mainlandPubdate",
+      pubYear: "some updated pubYear",
+      languages: "some updated languages",
+      tags: "some updated tags",
+      aka: "some updated aka",
+      title: "some updated title",
+      currentSeason: 43,
+      currentSeries: 43,
+      auditStatus: 43,
+      subtypeTxt: "some updated subtypeTxt",
+      auditStatusTxt: "some updated auditStatusTxt",
+      directors: "some updated directors",
+      originalTitle: "some updated originalTitle",
+      recentUpdateTime: "2011-05-18T15:01:01.000000Z",
+      genres: "some updated genres",
+      subtype: "some updated subtype",
+      summary: "some updated summary",
+      refreshTag: "some updated refreshTag",
+      bgPhoto: "some updated bgPhoto",
+      episodesCount: 43,
+      tagsTxt: "some updated tagsTxt",
+      rgb: "some updated rgb",
+      rating: 456.7,
+      countries: "some updated countries",
+      stateTxt: "some updated stateTxt"
+    }
+    @invalid_attrs %{
+      voId: nil,
+      casts: nil,
+      thumbs: nil,
+      seasonsCount: nil,
+      photo: nil,
+      refreshTagTxt: nil,
+      briefSummary: nil,
+      state: nil,
+      mainlandPubdate: nil,
+      pubYear: nil,
+      languages: nil,
+      tags: nil,
+      aka: nil,
+      title: nil,
+      currentSeason: nil,
+      currentSeries: nil,
+      auditStatus: nil,
+      subtypeTxt: nil,
+      auditStatusTxt: nil,
+      directors: nil,
+      originalTitle: nil,
+      recentUpdateTime: nil,
+      genres: nil,
+      subtype: nil,
+      summary: nil,
+      refreshTag: nil,
+      bgPhoto: nil,
+      episodesCount: nil,
+      tagsTxt: nil,
+      rgb: nil,
+      rating: nil,
+      countries: nil,
+      stateTxt: nil
+    }
 
     def bangumi_fixture(attrs \\ %{}) do
       {:ok, bangumi} =
@@ -42,7 +144,10 @@ defmodule MoelabServer.AnimeTest do
       assert bangumi.summary == "some summary"
       assert bangumi.subtype == "some subtype"
       assert bangumi.genres == "some genres"
-      assert bangumi.recentUpdateTime == DateTime.from_naive!(~N[2010-04-17T14:00:00.000000Z], "Etc/UTC")
+
+      assert bangumi.recentUpdateTime ==
+               DateTime.from_naive!(~N[2010-04-17T14:00:00.000000Z], "Etc/UTC")
+
       assert bangumi.originalTitle == "some originalTitle"
       assert bangumi.directors == "some directors"
       assert bangumi.auditStatusTxt == "some auditStatusTxt"
@@ -84,7 +189,10 @@ defmodule MoelabServer.AnimeTest do
       assert bangumi.summary == "some updated summary"
       assert bangumi.subtype == "some updated subtype"
       assert bangumi.genres == "some updated genres"
-      assert bangumi.recentUpdateTime == DateTime.from_naive!(~N[2011-05-18T15:01:01.000000Z], "Etc/UTC")
+
+      assert bangumi.recentUpdateTime ==
+               DateTime.from_naive!(~N[2011-05-18T15:01:01.000000Z], "Etc/UTC")
+
       assert bangumi.originalTitle == "some updated originalTitle"
       assert bangumi.directors == "some updated directors"
       assert bangumi.auditStatusTxt == "some updated auditStatusTxt"

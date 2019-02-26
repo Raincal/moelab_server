@@ -1,7 +1,7 @@
 defmodule MoelabServerWeb.Resolvers.AnimeResolver do
   import ShortMaps
   alias MoelabServer.Anime
-  alias MoelabServer.Anime.Bangumi
+  alias MoelabServer.Anime.{Bangumi, BangumiComment}
   alias Helper.ORM
 
   def bangumi(_, ~m(id)a, _), do: ORM.find(Bangumi, id)
@@ -48,4 +48,29 @@ defmodule MoelabServerWeb.Resolvers.AnimeResolver do
   def create_genre(_, %{bangumi_id: bid, name: genre_name}, _) do
     Anime.create_genre(bid, genre_name)
   end
+
+  def create_comment(_, input, %{context: %{current_user: current_user}}) do
+    comment_input = Map.merge(input, %{author_id: current_user.id})
+    ORM.create(BangumiComment, comment_input)
+  end
+
+  def update_comment(_, ~m(id body)a, %{context: %{current_user: current_user}}) do
+    with {:ok, content} <- ORM.find(BangumiComment, id),
+         true <- content.author_id == current_user.id do
+      BangumiComment |> ORM.find_update(~m(id body)a)
+    end
+  end
+
+  def delete_comment(_, ~m(id)a, %{context: %{current_user: current_user}}) do
+    with {:ok, content} <- ORM.find(BangumiComment, id),
+         true <- content.author_id == current_user.id do
+      BangumiComment |> ORM.find_delete(id)
+    end
+  end
+
+  def paged_comments(_, ~m(id filter)a, _) do
+    Anime.list_comments(id, filter)
+  end
+
+  def paged_comments(_, _, _), do: {:error, "invalid args"}
 end

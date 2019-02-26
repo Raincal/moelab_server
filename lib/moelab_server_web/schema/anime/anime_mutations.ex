@@ -41,6 +41,29 @@ defmodule MoelabServerWeb.Schema.Anime.AnimeMutations do
       resolve(&Resolvers.AnimeResolver.unsubscribe_bangumi/3)
     end
 
+    @desc "Create a new comment"
+    field :create_comment, :comment do
+      arg(:bangumi_id, non_null(:id))
+      arg(:body, non_null(:string))
+      middleware(Middleware.Authorize, :any)
+      resolve(&Resolvers.AnimeResolver.create_comment/3)
+    end
+
+    @desc "Update a comment"
+    field :update_comment, :comment do
+      arg(:id, non_null(:id))
+      arg(:body, non_null(:string))
+      middleware(Middleware.Authorize, :any)
+      resolve(&Resolvers.AnimeResolver.update_comment/3)
+    end
+
+    @desc "Delete a comment"
+    field :delete_comment, :comment do
+      arg(:id, non_null(:id))
+      middleware(Middleware.Authorize, :any)
+      resolve(&Resolvers.AnimeResolver.delete_comment/3)
+    end
+
     @desc "Create a new tag"
     field :create_tag, :bangumi_tag do
       arg(:bangumi_id, :id)

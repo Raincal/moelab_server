@@ -45,6 +45,12 @@ defmodule MoelabServerWeb.Schema.Anime.AnimeTypes do
     field(:genres, list_of(:genre), resolve: dataloader(Anime))
     field(:tags, list_of(:tag), resolve: dataloader(Anime))
 
+    field :comments, list_of(:comment) do
+      arg(:filter, :members_filter)
+
+      resolve(dataloader(Anime))
+    end
+
     field :viewer_has_subscribed, :boolean do
       arg(:viewer_did, :viewer_did_type, default_value: :viewer_did)
 
@@ -69,6 +75,30 @@ defmodule MoelabServerWeb.Schema.Anime.AnimeTypes do
 
   input_object :bangumi_input do
     bangumi_args()
+  end
+
+  input_object :comments_filter do
+    pagination_args()
+    field(:sort, :comment_sort_enum, default_value: :asc_inserted)
+  end
+
+  object :comment do
+    comments_fields()
+  end
+
+  object :bangumi_comment do
+    comments_fields()
+    field(:bangumi, :bangumi, resolve: dataloader(Anime))
+  end
+
+  object :paged_comments do
+    field(:entries, list_of(:comment))
+    pagination_fields()
+  end
+
+  object :paged_bangumi_comments do
+    field(:entries, list_of(:bangumi_comment))
+    pagination_fields()
   end
 
   object :genre do

@@ -9,6 +9,7 @@ defmodule MoelabServer.Anime do
   defdelegate list_bangumi(filter), to: BgmCURD
 
   defdelegate bangumi_subscribers(bangumi, filters), to: BgmCURD
+  defdelegate list_comments(id, filters), to: BgmCURD
 
   defdelegate create_tag(bangumi, tag_name), to: BgmOperation
   defdelegate create_genre(bangumi, genre_name), to: BgmOperation

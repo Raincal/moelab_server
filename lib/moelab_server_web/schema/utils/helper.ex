@@ -1,4 +1,6 @@
 defmodule MoelabServerWeb.Schema.Utils.Helper do
+  alias MoelabServer.Anime
+
   # see: https://github.com/absinthe-graphql/absinthe/issues/363
   defmacro pagination_args() do
     quote do
@@ -13,6 +15,13 @@ defmodule MoelabServerWeb.Schema.Utils.Helper do
       field(:page_size, :integer)
       field(:total_pages, :integer)
       field(:page_number, :integer)
+    end
+  end
+
+  defmacro timestamp_fields do
+    quote do
+      field(:inserted_at, :datetime)
+      field(:updated_at, :datetime)
     end
   end
 
@@ -44,6 +53,16 @@ defmodule MoelabServerWeb.Schema.Utils.Helper do
       field(:seasons_count, :integer)
       field(:casts, :string)
       field(:vo_id, :string)
+    end
+  end
+
+  defmacro comments_fields do
+    quote do
+      field(:id, :id)
+      field(:body, :string)
+      field(:author, :user, resolve: dataloader(Anime))
+
+      timestamp_fields()
     end
   end
 end

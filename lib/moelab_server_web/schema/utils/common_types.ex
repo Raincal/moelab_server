@@ -17,6 +17,13 @@ defmodule MoelabServerWeb.Schema.Util.CommonTypes do
     value(:username)
   end
 
+  enum :comment_sort_enum do
+    value(:asc_inserted)
+    value(:desc_inserted)
+    value(:most_likes)
+    value(:most_dislikes)
+  end
+
   enum(:viewer_did_type, do: value(:viewer_did))
   enum(:count_type, do: value(:count))
   enum(:bangumi_type, do: value(:bangumi))

@@ -2,7 +2,7 @@ defmodule MoelabServer.Anime.Bangumi do
   use Ecto.Schema
   import Ecto.Changeset
   alias MoelabServer.Accounts.User
-  alias MoelabServer.Anime.{Genre, Tag, BangumiSubscriber}
+  alias MoelabServer.Anime.{Genre, Tag, BangumiSubscriber, BangumiComment}
 
   @timestamps_opts [type: :utc_datetime_usec]
   @required_fields ~w(aka audit_status bg_photo brief_summary casts countries current_season current_series episodes_count languages mainland_pubdate original_title photo pub_year rating refresh_tag rgb seasons_count state subtype summary title vo_id creater_id)a
@@ -37,6 +37,7 @@ defmodule MoelabServer.Anime.Bangumi do
     field(:vo_id, :string)
 
     belongs_to(:creater, User)
+    has_many(:comments, BangumiComment)
     has_many(:subscribers, BangumiSubscriber)
     many_to_many(:genres, Genre, join_through: "bangumi_genres")
     many_to_many(:tags, Tag, join_through: "bangumi_tags")

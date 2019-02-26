@@ -1,5 +1,6 @@
 defmodule MoelabServer.Seeds do
   alias MoelabServer.{Repo, Anime, Accounts}
+  alias Helper.ORM
 
   @required_fields ~w(aka audit_status bg_photo brief_summary casts countries current_season current_series directors episodes_count languages mainland_pubdate original_title photo pub_year rating refresh_tag rgb seasons_count state subtype summary thumbs title vo_id recent_update_time)a
 
@@ -12,6 +13,7 @@ defmodule MoelabServer.Seeds do
     insert_user()
     response["list"] |> transform_list() |> insert_bangumi()
     response["list"] |> insert_genres_and_tags()
+    insert_comment()
   end
 
   defp insert_user do
@@ -67,5 +69,13 @@ defmodule MoelabServer.Seeds do
         end
       end
     end)
+  end
+
+  defp insert_comment do
+    ORM.create(Anime.BangumiComment, %{
+      body: "comment",
+      author_id: 1,
+      bangumi_id: 1
+    })
   end
 end
