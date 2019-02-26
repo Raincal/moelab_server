@@ -44,7 +44,7 @@ defmodule MoelabServerWeb.Endpoint do
     signing_salt: "F8JmY8sh"
   )
 
-  plug CORSPlug, origin: ["http://localhost:3000"]
+  plug(CORSPlug, origin: ["http://localhost:3000", "https://moelab.me", "https://dev.moelab.me"])
 
   plug(MoelabServerWeb.Router)
 end
