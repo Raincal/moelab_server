@@ -54,7 +54,6 @@ defmodule MoelabServerWeb.Schema.Anime.AnimeTypes do
     field :viewer_has_subscribed, :boolean do
       arg(:viewer_did, :viewer_did_type, default_value: :viewer_did)
 
-      middleware(Middleware.Authorize, :any)
       middleware(Middleware.PutCurrentUser)
       resolve(dataloader(Anime, :subscribers))
       middleware(Middleware.ViewerDidConvert)
